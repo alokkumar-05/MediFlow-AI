@@ -9,12 +9,13 @@ export const config = {
   mongodbUri: process.env.MONGODB_URI || '',
   nodeEnv: process.env.NODE_ENV || 'development',
   jwtSecret: process.env.JWT_SECRET || '',
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '24h',
   geminiApiKey: process.env.GEMINI_API_KEY || '',
   cloudinary: {
     cloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
     apiKey: process.env.CLOUDINARY_API_KEY || '',
     apiSecret: process.env.CLOUDINARY_API_SECRET || '',
-  }
+  },
 };
 
 export function validateEnv() {
@@ -23,7 +24,20 @@ export function validateEnv() {
     console.warn('\x1b[33m%s\x1b[0m', '   To enable database persistence, configure MONGODB_URI in server/.env');
   }
 
-  if (config.nodeEnv === 'production' && !config.jwtSecret) {
-    console.warn('\x1b[33m%s\x1b[0m', '⚠️  [Security Warning] JWT_SECRET should be set in production mode.');
+  if (!config.jwtSecret) {
+    console.error('\x1b[31m%s\x1b[0m', '❌ [Security Error] JWT_SECRET is missing in environment variables.');
+    console.error('\x1b[31m%s\x1b[0m', '   Authentication requires a valid JWT_SECRET configured in server/.env');
+  } else if (config.jwtSecret.length < 16) {
+    console.warn('\x1b[33m%s\x1b[0m', '⚠️  [Security Warning] JWT_SECRET is relatively short. Recommended: 32+ character high-entropy key.');
   }
+}
+
+export function getCookieOptions() {
+  return {
+    httpOnly: true,
+    secure: config.nodeEnv === 'production',
+    sameSite: config.nodeEnv === 'production' ? 'none' : 'lax',
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    path: '/',
+  };
 }

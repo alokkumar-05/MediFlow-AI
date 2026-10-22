@@ -164,29 +164,44 @@ npm run dev
 ### 4. Verification Endpoints & URLs
 
 - **Frontend Application:** [http://localhost:5173](http://localhost:5173)
-  - Navigation available for: `/`, `/appointments`, `/patients`, `/doctors`, `/departments`, `/ai-assistant`, `/settings`
+  - Public routes: `/login`, `/register`, `/unauthorized`
+  - Admin routes: `/admin/dashboard`, `/admin/users`, `/admin/doctors`, `/admin/nurses`, `/admin/departments`, `/admin/appointments`, `/admin/assignments`, `/admin/settings`
+  - Doctor routes: `/doctor/dashboard`, `/doctor/appointments`, `/doctor/patients`, `/doctor/medical-records`, `/doctor/ai-assistant`, `/doctor/settings`
+  - Nurse routes: `/nurse/dashboard`, `/nurse/assigned-patients`, `/nurse/appointments`, `/nurse/care-records`, `/nurse/settings`
+  - Patient routes: `/patient/dashboard`, `/patient/book-appointment`, `/patient/appointments`, `/patient/doctors`, `/patient/medical-records`, `/patient/ai-assistant`, `/patient/profile`, `/patient/settings`
 - **Backend Health Check:** [http://localhost:5000/api/health](http://localhost:5000/api/health)
-  - Expected JSON Response:
-    ```json
-    {
-      "success": true,
-      "message": "MediFlow-AI API is running",
-      "environment": "development",
-      "timestamp": "2026-10-23T...",
-      "database": {
-        "connected": false,
-        "status": "not_configured"
-      }
-    }
-    ```
+- **Backend Authentication APIs:**
+  - `POST /api/auth/register` (Public, creates Patient role only)
+  - `POST /api/auth/login` (Returns JWT & sets HTTP-only cookie)
+  - `POST /api/auth/logout` (Clears HTTP-only cookie)
+  - `GET /api/auth/me` (Protected, restores session)
+  - `GET /api/auth/test-role` (Protected, verifies user role)
+- **Backend Admin APIs (Admin Only):**
+  - `POST /api/admin/staff` (Provisions Doctor, Nurse, or Admin)
+  - `GET /api/admin/staff` (Lists hospital staff)
+  - `GET /api/admin/users` (Lists all users with filters)
+  - `PATCH /api/admin/users/:id/status` (Toggle active/inactive status with self-lockout prevention)
 
 ---
 
-## Phase Roadmap
+### 5. Running Automated Tests
 
-- [x] **Phase 1: Foundation Setup** — Vite React frontend with Tailwind CSS, React Router, modular Express server, and decoupled MongoDB Mongoose connector.
-- [ ] **Phase 2: Authentication & RBAC** — JWT auth, password hashing with bcrypt, role-based middleware for Admin, Doctor, Nurse, and Patient.
-- [ ] **Phase 3: Appointments & Doctor Rostering** — Conflict-free dynamic slot engine, appointment lifecycle status transitions, and doctor assignments.
-- [ ] **Phase 4: Patient EMR & Admissions** — Medical records, Multer + Cloudinary document attachments, and inpatient (IPD) ward admissions.
-- [ ] **Phase 5: Gemini AI Clinical Intelligence** — Pre-consultation symptom triage, multimodal lab report biomarker extraction with clinician review, and patient-history briefs.
-- [ ] **Phase 6: Production Polish & Deployment** — Security auditing, end-to-end integration testing, seed scripts, and deployment.
+```bash
+# Service & credential connectivity test (MongoDB Atlas, Cloudinary, Gemini)
+npm run check:services
+
+# Safe initial administrator account provisioning
+npm run seed:admin
+
+# Automated Auth & RBAC test suite (14 core tests)
+npm run test:auth
+
+# Extended RBAC & security test suite (25 tests)
+npm run test:rbac
+
+# Run all automated test suites (39 tests)
+npm run test:all
+```
+
+---
+

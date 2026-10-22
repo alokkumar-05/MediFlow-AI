@@ -1,7 +1,35 @@
 import React from 'react';
-import { Menu, Bell, ShieldCheck, HeartPulse } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';
+import { Menu, HeartPulse, LogOut, Shield } from 'lucide-react';
 
 export default function TopNavbar({ onMenuToggle }) {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
+  const initials = user?.name
+    ? user.name
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .toUpperCase()
+        .substring(0, 2)
+    : 'U';
+
+  const roleColors = {
+    admin: 'bg-red-100 text-red-800 border-red-200',
+    doctor: 'bg-blue-100 text-blue-800 border-blue-200',
+    nurse: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+    patient: 'bg-purple-100 text-purple-800 border-purple-200',
+  };
+
+  const userRole = user?.role || 'patient';
+
   return (
     <header className="h-16 bg-white border-b border-slate-200 sticky top-0 z-30 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       <div className="flex items-center gap-3">
@@ -19,34 +47,41 @@ export default function TopNavbar({ onMenuToggle }) {
           <span className="text-slate-300">•</span>
           <span className="text-emerald-600 font-medium flex items-center gap-1">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-            System Online
+            RBAC Enforced
           </span>
         </div>
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-md border border-blue-100">
-          <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
-          <span>Phase 1 Scaffolding</span>
-        </div>
-
-        <button 
-          className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg relative"
-          title="Notifications placeholder"
+        {/* Role Badge */}
+        <span
+          className={`capitalize text-xs font-semibold px-2.5 py-1 rounded-full border ${
+            roleColors[userRole] || roleColors.patient
+          }`}
         >
-          <Bell className="w-4 h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full"></span>
-        </button>
+          {userRole}
+        </span>
 
+        {/* User Profile Block */}
         <div className="flex items-center gap-2.5 pl-2 border-l border-slate-200">
-          <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-semibold text-slate-700">
-            MD
+          <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">
+            {initials}
           </div>
           <div className="hidden md:block text-left">
-            <p className="text-xs font-medium text-slate-800">Admin Staff</p>
-            <p className="text-[10px] text-slate-400">Sample Session</p>
+            <p className="text-xs font-semibold text-slate-800 leading-tight">{user?.name || 'User'}</p>
+            <p className="text-[10px] text-slate-400 truncate max-w-[150px]">{user?.email}</p>
           </div>
         </div>
+
+        {/* Sign Out Button */}
+        <button
+          onClick={handleLogout}
+          className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1"
+          title="Sign out"
+          aria-label="Sign out"
+        >
+          <LogOut className="w-4 h-4" />
+        </button>
       </div>
     </header>
   );

@@ -8,12 +8,19 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "check:services": "node scripts/checkCredentials.js"
+    "check:services": "node scripts/checkCredentials.js",
+    "seed:admin": "node scripts/seedAdmin.js",
+    "test:auth": "node scripts/testAuthSuite.js",
+    "test:rbac": "node scripts/testExtendedRBAC.js",
+    "test:all": "node scripts/testAuthSuite.js && node scripts/testExtendedRBAC.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.9.5"
   },
   "devDependencies": {

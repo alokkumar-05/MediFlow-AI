@@ -1,3 +1,4 @@
-// MediFlow-AI Models Directory
-// Phase 2 will introduce: User.js, PatientProfile.js, DoctorProfile.js, Department.js
-export default {};
+import User, { ROLES } from './User.js';
+
+export { User, ROLES };
+export default { User, ROLES };

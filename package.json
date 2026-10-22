@@ -9,7 +9,11 @@
     "dev:server": "npm --prefix server run dev",
     "install:all": "npm install && npm --prefix client install && npm --prefix server install",
     "build:client": "npm --prefix client run build",
-    "check:services": "npm --prefix server run check:services"
+    "check:services": "npm --prefix server run check:services",
+    "seed:admin": "npm --prefix server run seed:admin",
+    "test:auth": "npm --prefix server run test:auth",
+    "test:rbac": "npm --prefix server run test:rbac",
+    "test:all": "npm --prefix server run test:all"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
