@@ -1,0 +1,17 @@
+{
+  "name": "mediflow-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MediFlow-AI — AI-Assisted Hospital Management System",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "install:all": "npm install && npm --prefix client install && npm --prefix server install",
+    "build:client": "npm --prefix client run build",
+    "check:services": "npm --prefix server run check:services"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
