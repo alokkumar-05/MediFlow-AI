@@ -22,6 +22,7 @@ import {
   getAdmissionById,
   dischargePatient,
 } from '../controllers/admissionController.js';
+import { generatePatientSummary } from '../controllers/aiSummaryController.js';
 import { authenticateUser, authorizeRoles } from '../middleware/authMiddleware.js';
 
 const router = Router();
@@ -71,5 +72,10 @@ router.get('/admissions', doctorListAssignedAdmissions);
 router.get('/admissions/:id', getAdmissionById);
 router.patch('/admissions/:id/discharge', dischargePatient);
 
+// Task 13: Doctor AI Patient History Summary (Protected & Grounded)
+router.post('/patients/:patientId/ai-summary', generatePatientSummary);
+router.get('/patients/:patientId/ai-summary', generatePatientSummary);
+
 export default router;
+
 

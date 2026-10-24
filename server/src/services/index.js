@@ -1,3 +1,5 @@
 // MediFlow-AI Services Directory
-// Subsequent phases will introduce: slotService.js, geminiService.js, etc.
-export default {};
+import geminiService from './geminiService.js';
+
+export { geminiService };
+export default { geminiService };

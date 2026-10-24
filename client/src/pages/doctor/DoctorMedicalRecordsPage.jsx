@@ -15,8 +15,10 @@ import {
   RefreshCw,
   User,
   Eye,
-  Edit2
+  Edit2,
+  Sparkles,
 } from 'lucide-react';
+import PatientAiSummaryModal from '../../components/PatientAiSummaryModal.jsx';
 
 export default function DoctorMedicalRecordsPage() {
   const [patients, setPatients] = useState([]);
@@ -25,6 +27,12 @@ export default function DoctorMedicalRecordsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  // AI Summary State
+  const [showAiSummaryModal, setShowAiSummaryModal] = useState(false);
+  const [aiSummaryLoading, setAiSummaryLoading] = useState(false);
+  const [aiSummaryError, setAiSummaryError] = useState('');
+  const [aiSummaryData, setAiSummaryData] = useState(null);
 
   // Modals
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -94,8 +102,33 @@ export default function DoctorMedicalRecordsPage() {
   useEffect(() => {
     if (selectedPatientId) {
       fetchRecordsForPatient(selectedPatientId);
+      // Reset active AI summary cache when patient changes
+      setAiSummaryData(null);
+      setAiSummaryError('');
     }
   }, [selectedPatientId]);
+
+  const handleGenerateAiSummary = async () => {
+    if (!selectedPatientId) return;
+    setShowAiSummaryModal(true);
+    setAiSummaryLoading(true);
+    setAiSummaryError('');
+    try {
+      const res = await api.post(`/doctor/patients/${selectedPatientId}/ai-summary`);
+      if (res.data?.success) {
+        setAiSummaryData(res.data);
+      } else {
+        setAiSummaryError(res.data?.message || 'Failed to generate AI summary.');
+      }
+    } catch (err) {
+      console.error('Error generating AI history summary:', err);
+      setAiSummaryError(
+        err.response?.data?.message || 'AI summary service error. Please try again or check connection.'
+      );
+    } finally {
+      setAiSummaryLoading(false);
+    }
+  };
 
   const handleAddPrescriptionRow = () => {
     setPrescriptions([
@@ -239,8 +272,16 @@ export default function DoctorMedicalRecordsPage() {
             </select>
           </div>
 
-          <div className="text-xs text-slate-500">
-            Showing records for authorized patient consultations
+          <div className="flex items-center gap-3 w-full sm:w-auto self-end sm:self-center">
+            <Button
+              variant="outline"
+              icon={Sparkles}
+              onClick={handleGenerateAiSummary}
+              disabled={!selectedPatientId || loading}
+              className="border-indigo-200 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 shadow-sm"
+            >
+              Generate AI History Summary
+            </Button>
           </div>
         </div>
       </Card>
@@ -592,6 +633,17 @@ export default function DoctorMedicalRecordsPage() {
           </div>
         </div>
       )}
+
+      {/* AI Patient History Summary Modal */}
+      <PatientAiSummaryModal
+        isOpen={showAiSummaryModal}
+        onClose={() => setShowAiSummaryModal(false)}
+        summaryData={aiSummaryData}
+        loading={aiSummaryLoading}
+        error={aiSummaryError}
+        onRegenerate={handleGenerateAiSummary}
+        patientName={patients.find((p) => p._id === selectedPatientId)?.name}
+      />
     </div>
   );
 }

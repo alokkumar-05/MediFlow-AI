@@ -19,7 +19,8 @@
     "test:appointments": "node scripts/testAppointments.js",
     "test:records": "node scripts/testMedicalRecords.js",
     "test:admissions": "node scripts/testAdmissions.js",
-    "test:all": "node scripts/testAuthSuite.js && node scripts/testExtendedRBAC.js && node scripts/testStaffAndDepartments.js && node scripts/testDoctorProfiles.js && node scripts/testAppointments.js && node scripts/testMedicalRecords.js && node scripts/testAdmissions.js"
+    "test:ai": "node scripts/testAiSummary.js",
+    "test:all": "node scripts/testAuthSuite.js && node scripts/testExtendedRBAC.js && node scripts/testStaffAndDepartments.js && node scripts/testDoctorProfiles.js && node scripts/testAppointments.js && node scripts/testMedicalRecords.js && node scripts/testAdmissions.js && node scripts/testAiSummary.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
