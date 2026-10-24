@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PageHeader from '../../components/PageHeader.jsx';
 import Card from '../../components/Card.jsx';
 import Button from '../../components/Button.jsx';
+import api from '../../services/api.js';
 import { 
   Users, 
   Stethoscope, 
@@ -15,12 +16,96 @@ import {
 import { Link } from 'react-router-dom';
 
 export default function AdminDashboard() {
+  const [metrics, setMetrics] = useState({
+    doctors: 0,
+    nurses: 0,
+    patients: 0,
+    departments: 0,
+    loading: true,
+  });
+
+  useEffect(() => {
+    async function loadMetrics() {
+      try {
+        const [usersRes, deptsRes, admRes] = await Promise.allSettled([
+          api.get('/admin/users'),
+          api.get('/admin/departments'),
+          api.get('/admin/admissions/metrics'),
+        ]);
+
+        let docs = 0;
+        let nurses = 0;
+        let patients = 0;
+        let depts = 0;
+        let activeInpatients = 0;
+
+        if (usersRes.status === 'fulfilled' && usersRes.value.data?.users) {
+          const uList = usersRes.value.data.users;
+          docs = uList.filter((u) => u.role === 'doctor').length;
+          nurses = uList.filter((u) => u.role === 'nurse').length;
+          patients = uList.filter((u) => u.role === 'patient').length;
+        }
+
+        if (deptsRes.status === 'fulfilled' && deptsRes.value.data?.departments) {
+          depts = deptsRes.value.data.departments.length;
+        }
+
+        if (admRes.status === 'fulfilled' && admRes.value.data?.metrics) {
+          activeInpatients = admRes.value.data.metrics.activeCount || 0;
+        }
+
+        setMetrics({
+          doctors: docs,
+          nurses,
+          patients,
+          departments: depts,
+          activeInpatients,
+          loading: false,
+        });
+      } catch (err) {
+        setMetrics((prev) => ({ ...prev, loading: false }));
+      }
+    }
+
+    loadMetrics();
+  }, []);
+
+
   const adminMetrics = [
-    { label: 'Active Doctors', value: '14', icon: Stethoscope, color: 'text-blue-600', bg: 'bg-blue-50', link: '/admin/doctors' },
-    { label: 'Registered Nurses', value: '28', icon: HeartHandshake, color: 'text-emerald-600', bg: 'bg-emerald-50', link: '/admin/nurses' },
-    { label: 'Total Patients', value: '1,280', icon: Users, color: 'text-purple-600', bg: 'bg-purple-50', link: '/admin/users' },
-    { label: 'Hospital Departments', value: '9', icon: Building2, color: 'text-amber-600', bg: 'bg-amber-50', link: '/admin/departments' },
+    { 
+      label: 'Active Doctors', 
+      value: metrics.loading ? '...' : metrics.doctors.toString(), 
+      icon: Stethoscope, 
+      color: 'text-blue-600', 
+      bg: 'bg-blue-50', 
+      link: '/admin/doctors' 
+    },
+    { 
+      label: 'Active Inpatients', 
+      value: metrics.loading ? '...' : (metrics.activeInpatients || 0).toString(), 
+      icon: Layers, 
+      color: 'text-indigo-600', 
+      bg: 'bg-indigo-50', 
+      link: '/admin/assignments' 
+    },
+    { 
+      label: 'Total Patients', 
+      value: metrics.loading ? '...' : metrics.patients.toString(), 
+      icon: Users, 
+      color: 'text-purple-600', 
+      bg: 'bg-purple-50', 
+      link: '/admin/users' 
+    },
+    { 
+      label: 'Hospital Departments', 
+      value: metrics.loading ? '...' : metrics.departments.toString(), 
+      icon: Building2, 
+      color: 'text-amber-600', 
+      bg: 'bg-amber-50', 
+      link: '/admin/departments' 
+    },
   ];
+
 
   return (
     <div>

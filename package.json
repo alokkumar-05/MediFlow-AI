@@ -11,8 +11,12 @@
     "build:client": "npm --prefix client run build",
     "check:services": "npm --prefix server run check:services",
     "seed:admin": "npm --prefix server run seed:admin",
+    "seed:departments": "npm --prefix server run seed:departments",
+    "seed:doctors": "npm --prefix server run seed:doctors",
     "test:auth": "npm --prefix server run test:auth",
     "test:rbac": "npm --prefix server run test:rbac",
+    "test:departments": "npm --prefix server run test:departments",
+    "test:doctors": "npm --prefix server run test:doctors",
     "test:all": "npm --prefix server run test:all"
   },
   "devDependencies": {

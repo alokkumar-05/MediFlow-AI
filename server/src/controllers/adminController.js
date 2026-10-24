@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import User, { ROLES } from '../models/User.js';
 
 const STAFF_ROLES = ['admin', 'doctor', 'nurse'];
@@ -90,7 +91,7 @@ export async function listStaff(req, res, next) {
 
 export async function listAllUsers(req, res, next) {
   try {
-    const { role, isActive } = req.query;
+    const { role, isActive, search } = req.query;
     const filter = {};
 
     if (role && ROLES.includes(role)) {
@@ -98,6 +99,13 @@ export async function listAllUsers(req, res, next) {
     }
     if (isActive !== undefined) {
       filter.isActive = isActive === 'true';
+    }
+    if (search && search.trim()) {
+      const q = search.trim();
+      filter.$or = [
+        { name: { $regex: q, $options: 'i' } },
+        { email: { $regex: q, $options: 'i' } },
+      ];
     }
 
     const users = await User.find(filter)
@@ -114,11 +122,38 @@ export async function listAllUsers(req, res, next) {
   }
 }
 
+export async function getUserDetails(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid user ID format' });
+    }
+
+    const user = await User.findById(id).select('-password');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      user: user.toSafeObject(),
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function toggleUserStatus(req, res, next) {
   try {
     const { id } = req.params;
 
-    if (id === req.user.id.toString()) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid user ID format' });
+    }
+
+    const currentUserId = (req.user._id || req.user.id).toString();
+    if (id === currentUserId) {
       return res.status(400).json({
         success: false,
         message: 'Administrators cannot deactivate their own active account',
@@ -142,3 +177,4 @@ export async function toggleUserStatus(req, res, next) {
     next(error);
   }
 }
+

@@ -23,6 +23,23 @@ export async function connectDB() {
     console.log('\x1b[32m%s\x1b[0m', `✅ [MongoDB] Connected to database: ${conn.connection.host}`);
     return true;
   } catch (error) {
+    // If Atlas or remote cluster is unreachable (e.g., dynamic IP change / Atlas IP whitelist), attempt local MongoDB fallback
+    if (config.mongodbUri.includes('mongodb+srv') || config.mongodbUri.includes('mongodb.net')) {
+      console.warn('\x1b[33m%s\x1b[0m', `⚠️  [MongoDB] Primary Atlas connection failed (${error.message}). Attempting local MongoDB fallback...`);
+      try {
+        const localUri = 'mongodb://127.0.0.1:27017/mediflow';
+        const localConn = await mongoose.connect(localUri, {
+          serverSelectionTimeoutMS: 4000,
+        });
+        isConnected = true;
+        connectionStatus = 'connected (local fallback)';
+        console.log('\x1b[32m%s\x1b[0m', `✅ [MongoDB Fallback] Connected to local MongoDB instance: ${localConn.connection.host}`);
+        return true;
+      } catch (localErr) {
+        console.error('\x1b[31m%s\x1b[0m', `❌ [MongoDB] Local fallback also failed: ${localErr.message}`);
+      }
+    }
+
     isConnected = false;
     connectionStatus = 'error';
     console.error('\x1b[31m%s\x1b[0m', `❌ [MongoDB] Connection failed: ${error.message}`);

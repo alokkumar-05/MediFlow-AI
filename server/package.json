@@ -10,9 +10,16 @@
     "dev": "nodemon src/server.js",
     "check:services": "node scripts/checkCredentials.js",
     "seed:admin": "node scripts/seedAdmin.js",
+    "seed:departments": "node scripts/seedDepartments.js",
+    "seed:doctors": "node scripts/seedDoctorProfiles.js",
     "test:auth": "node scripts/testAuthSuite.js",
     "test:rbac": "node scripts/testExtendedRBAC.js",
-    "test:all": "node scripts/testAuthSuite.js && node scripts/testExtendedRBAC.js"
+    "test:departments": "node scripts/testStaffAndDepartments.js",
+    "test:doctors": "node scripts/testDoctorProfiles.js",
+    "test:appointments": "node scripts/testAppointments.js",
+    "test:records": "node scripts/testMedicalRecords.js",
+    "test:admissions": "node scripts/testAdmissions.js",
+    "test:all": "node scripts/testAuthSuite.js && node scripts/testExtendedRBAC.js && node scripts/testStaffAndDepartments.js && node scripts/testDoctorProfiles.js && node scripts/testAppointments.js && node scripts/testMedicalRecords.js && node scripts/testAdmissions.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

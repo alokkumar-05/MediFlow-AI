@@ -178,9 +178,70 @@ npm run dev
   - `GET /api/auth/test-role` (Protected, verifies user role)
 - **Backend Admin APIs (Admin Only):**
   - `POST /api/admin/staff` (Provisions Doctor, Nurse, or Admin)
-  - `GET /api/admin/staff` (Lists hospital staff)
-  - `GET /api/admin/users` (Lists all users with filters)
+  - `GET /api/admin/staff` (Lists hospital staff by role)
+  - `GET /api/admin/users` (Lists all users with search & role filters)
+  - `GET /api/admin/users/:id` (Retrieves user profile details without password hash)
   - `PATCH /api/admin/users/:id/status` (Toggle active/inactive status with self-lockout prevention)
+  - `POST /api/admin/departments` (Creates hospital department with unique name)
+  - `GET /api/admin/departments` (Lists departments with search & status filters)
+  - `GET /api/admin/departments/:id` (Retrieves department details with head doctor)
+  - `PUT /api/admin/departments/:id` (Updates department name, location, code, head doctor)
+  - `PATCH /api/admin/departments/:id/status` (Toggles department active/inactive status)
+  - `DELETE /api/admin/departments/:id` (Soft-deactivates department preserving historical records)
+  - `GET /api/admin/doctors` (Lists doctor profiles with department, specialty, and availability filters)
+  - `GET /api/admin/doctors/:id` (Retrieves doctor profile details by profile or user ID)
+  - `POST /api/admin/doctors` (Creates doctor clinical profile linked to doctor User account)
+  - `PUT /api/admin/doctors/:id` (Updates doctor specialty, qualification, experience, fee, room)
+  - `PUT /api/admin/doctors/:id/availability` (Updates doctor weekly consultation schedule and slot duration)
+  - `PATCH /api/admin/doctors/:id/status` (Toggles doctor active availability status)
+- **Backend Doctor Self-Service APIs (Doctor Role Only):**
+  - `GET /api/doctor/profile` (Retrieves doctor's own clinical profile using `req.user._id`)
+  - `PUT /api/doctor/profile` (Updates doctor's permitted practice fields, fee, cabin, and bio)
+  - `GET /api/doctor/availability` (Retrieves doctor's weekly shift schedule and booking settings)
+  - `PUT /api/doctor/availability` (Updates weekly consulting days, 24h hours, and slot intervals)
+  - `PATCH /api/doctor/availability/toggle` (Toggles doctor's online/offline availability status)
+  - `GET /api/doctor/appointments` (Retrieves appointments assigned to doctor)
+  - `GET /api/doctor/appointments/:id` (Retrieves single appointment details)
+  - `PATCH /api/doctor/appointments/:id/confirm` (Confirms pending appointment)
+  - `PATCH /api/doctor/appointments/:id/complete` (Completes appointment with clinical notes)
+  - `PATCH /api/doctor/appointments/:id/no-show` (Marks patient as no-show)
+  - `PATCH /api/doctor/appointments/:id/cancel` (Cancels appointment with reason)
+  - `POST /api/doctor/medical-records` (Creates consultation chart with structured prescriptions)
+  - `GET /api/doctor/patients/:patientId/medical-records` (Retrieves medical records for treated patient)
+  - `PUT /api/doctor/medical-records/:id` (Updates clinical findings and notes on own record)
+  - `GET /api/doctor/admissions` (Retrieves doctor's assigned inpatient caseload)
+  - `PATCH /api/doctor/admissions/:id/discharge` (Executes patient discharge with clinical summary)
+- **Backend Patient Self-Service APIs (Patient Role Only):**
+  - `POST /api/patient/appointments` (Books appointment with double-booking prevention)
+  - `GET /api/patient/appointments` (Lists patient's own appointments)
+  - `GET /api/patient/appointments/:id` (Retrieves appointment details with strict patient isolation)
+  - `PATCH /api/patient/appointments/:id/cancel` (Cancels own active appointment)
+  - `POST /api/patient/appointments/:id/reschedule` (Atomically cancels old slot and books new slot)
+  - `GET /api/patient/medical-records` (Lists patient's own medical records and prescriptions)
+  - `GET /api/patient/medical-records/:id` (Retrieves own medical record details with 403 isolation)
+  - `GET /api/patient/admissions` (Lists patient's own inpatient admission stay history)
+- **Backend Nurse APIs (Nurse Role Only):**
+  - `GET /api/nurse/patients/:patientId/medical-records` (Views relevant patient medical records)
+  - `POST /api/nurse/observations` (Logs vitals and observation notes; strictly blocked from diagnosing/prescribing)
+  - `GET /api/nurse/admissions` (Lists active ward inpatients under care)
+  - `PATCH /api/nurse/admissions/:id/care` (Updates bedside nursing care directives)
+- **Backend Admin Oversight APIs (Admin Role Only):**
+  - `GET /api/admin/appointments` (Global outpatient schedule monitor with multi-criteria filters)
+  - `GET /api/admin/appointments/:id` (Global appointment inspection)
+  - `PATCH /api/admin/appointments/:id/assign-doctor` (Reassigns doctor with conflict prevention)
+  - `PATCH /api/admin/appointments/:id/status` (Updates appointment status with transition guard)
+  - `GET /api/admin/medical-records` (Global EMR repository inspection and audit search)
+  - `PATCH /api/admin/medical-records/:id/archive` (Non-destructive soft archival for audit compliance)
+  - `GET /api/admin/admissions` (Global inpatient roster with bed and doctor filters)
+  - `POST /api/admin/admissions` (Admits inpatient with single-active-admission enforcement)
+  - `PATCH /api/admin/admissions/:id` (Updates room/bed allocation and transfer notes)
+  - `PATCH /api/admin/admissions/:id/discharge` (Discharges patient with clinical summary)
+  - `GET /api/admin/admissions/metrics` (Live inpatient count, discharge counts, recent arrivals)
+- **Backend Public APIs:**
+  - `GET /api/departments` (Lists all active hospital specialty divisions)
+  - `GET /api/doctors` (Public sanitized physician directory with department & search filters)
+  - `GET /api/doctors/:id` (Public safe profile view for single physician)
+  - `GET /api/appointments/available-slots` (Live appointment slot generator respecting schedules, breaks, and existing bookings)
 
 ---
 
@@ -193,15 +254,37 @@ npm run check:services
 # Safe initial administrator account provisioning
 npm run seed:admin
 
+# Initial hospital departments bootstrap
+npm run seed:departments
+
+# Demo doctor clinical profiles bootstrap
+npm run seed:doctors
+
 # Automated Auth & RBAC test suite (14 core tests)
 npm run test:auth
 
 # Extended RBAC & security test suite (25 tests)
 npm run test:rbac
 
-# Run all automated test suites (39 tests)
+# Staff & Department Management test suite (32 tests)
+npm run test:departments
+
+# Doctor Profiles & Availability test suite (31 tests)
+npm run test:doctors
+
+# Appointment Booking & Rostering test suite (37 tests)
+npm run test:appointments
+
+# Medical Records & Prescriptions test suite (19 tests)
+npm run test:records
+
+# Inpatient Admission & Discharge test suite (19 tests)
+npm run test:admissions
+
+# Run all automated test suites (177 tests across Phase 2 and Phase 3)
 npm run test:all
 ```
+
 
 ---
 

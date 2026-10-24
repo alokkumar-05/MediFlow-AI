@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PageHeader from '../../components/PageHeader.jsx';
 import Card from '../../components/Card.jsx';
 import Button from '../../components/Button.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
+import api from '../../services/api.js';
 import { 
   HeartPulse, 
   Users, 
@@ -10,103 +11,164 @@ import {
   BedDouble, 
   Clock, 
   CheckCircle,
-  Plus
+  Plus,
+  ChevronRight,
+  Stethoscope
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function NurseDashboard() {
   const { user } = useAuth();
+  const [inpatients, setInpatients] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadNurseData() {
+      try {
+        const res = await api.get('/nurse/admissions?status=admitted');
+        if (res.data?.success) {
+          setInpatients(res.data.admissions || []);
+        }
+      } catch (err) {
+        console.error('Error fetching nurse admissions:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadNurseData();
+  }, []);
 
   const nurseMetrics = [
-    { label: 'Ward Inpatients Under Care', value: '8', note: 'Sample Data', icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
-    { label: 'Vitals Checks Scheduled', value: '4', note: 'Sample Data', icon: HeartPulse, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { label: 'Medications Due This Shift', value: '6', note: 'Sample Data', icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50' },
-    { label: 'Available Ward Beds', value: '5', note: 'Sample Data', icon: BedDouble, color: 'text-purple-600', bg: 'bg-purple-50' },
-  ];
-
-  const sampleRounds = [
-    { bed: 'Bed A-12', patient: 'Robert Vance', vitalsDue: '10:00 AM', status: 'Pending Vitals', bp: '120/80', temp: '98.6°F' },
-    { bed: 'Bed A-14', patient: 'Phyllis Lapin', vitalsDue: '10:30 AM', status: 'Vitals Recorded', bp: '130/85', temp: '99.1°F' },
-    { bed: 'Bed B-03', patient: 'Stanley Hudson', vitalsDue: '11:00 AM', status: 'Scheduled', bp: '125/82', temp: '98.4°F' },
+    { 
+      label: 'Active Ward Inpatients', 
+      value: loading ? '...' : inpatients.length.toString(), 
+      note: 'Under Nursing Care', 
+      icon: Users, 
+      color: 'text-blue-600', 
+      bg: 'bg-blue-50',
+      link: '/nurse/assigned-patients'
+    },
+    { 
+      label: 'Vitals & Care Station', 
+      value: 'Active', 
+      note: 'Hourly Observation Rounds', 
+      icon: HeartPulse, 
+      color: 'text-emerald-600', 
+      bg: 'bg-emerald-50',
+      link: '/nurse/care-records'
+    },
+    { 
+      label: 'Ward Beds Occupied', 
+      value: loading ? '...' : inpatients.length.toString(), 
+      note: 'Allocated Beds', 
+      icon: BedDouble, 
+      color: 'text-purple-600', 
+      bg: 'bg-purple-50',
+      link: '/nurse/assigned-patients'
+    },
+    { 
+      label: 'Shift Status', 
+      value: 'On Duty', 
+      note: 'Triage & Monitoring', 
+      icon: Clock, 
+      color: 'text-amber-600', 
+      bg: 'bg-amber-50',
+      link: '/nurse/appointments'
+    },
   ];
 
   return (
-    <div>
+    <div className="space-y-6">
       <PageHeader
         title={`Nursing Station — ${user?.name || 'Staff'}`}
-        subtitle="Inpatient ward monitoring, shift vitals checks, and medication administration"
+        subtitle="Inpatient ward monitoring, shift vitals logs, and bedside clinical care"
         action={
           <Link to="/nurse/care-records">
             <Button icon={Plus} variant="primary">
-              Log Vitals (Phase 4)
+              Log Patient Vitals
             </Button>
           </Link>
         }
       />
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {nurseMetrics.map((item, i) => {
           const Icon = item.icon;
           return (
-            <Card key={i}>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-medium text-slate-500">{item.label}</p>
-                  <p className="text-2xl font-bold text-slate-900 mt-1">{item.value}</p>
-                  <span className="inline-block mt-1 text-[11px] font-medium text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
-                    {item.note}
-                  </span>
+            <Link key={i} to={item.link} className="block group">
+              <Card className="group-hover:border-primary-300 transition-all">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-slate-500">{item.label}</p>
+                    <p className="text-2xl font-bold text-slate-900 mt-1">{item.value}</p>
+                    <span className="inline-block mt-1 text-[11px] font-medium text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                      {item.note}
+                    </span>
+                  </div>
+                  <div className={`w-12 h-12 rounded-xl ${item.bg} ${item.color} flex items-center justify-center shrink-0`}>
+                    <Icon className="w-6 h-6" />
+                  </div>
                 </div>
-                <div className={`w-12 h-12 rounded-xl ${item.bg} ${item.color} flex items-center justify-center shrink-0`}>
-                  <Icon className="w-6 h-6" />
-                </div>
-              </div>
-            </Card>
+              </Card>
+            </Link>
           );
         })}
       </div>
 
-      {/* Ward Patients Vitals Schedule */}
-      <Card title="Ward Vitals Schedule" subtitle="Sample inpatient care rounds">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="border-b border-slate-100 text-slate-400 uppercase text-[10px] font-semibold tracking-wider">
-                <th className="pb-3 pl-2">Bed & Inpatient</th>
-                <th className="pb-3">Round Time</th>
-                <th className="pb-3">Latest Vitals (Sample)</th>
-                <th className="pb-3 pr-2 text-right">Round Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {sampleRounds.map((round, idx) => (
-                <tr key={idx} className="hover:bg-slate-50/60">
-                  <td className="py-3 pl-2">
-                    <span className="font-bold text-slate-900 block">{round.patient}</span>
-                    <span className="text-[11px] text-slate-400 font-mono">{round.bed}</span>
-                  </td>
-                  <td className="py-3 text-slate-600">{round.vitalsDue}</td>
-                  <td className="py-3">
-                    <span className="text-xs font-mono text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
-                      BP: {round.bp} | Temp: {round.temp}
-                    </span>
-                  </td>
-                  <td className="py-3 pr-2 text-right">
-                    <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
-                      round.status.includes('Recorded')
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                        : 'bg-amber-50 text-amber-700 border-amber-200'
-                    }`}>
-                      {round.status}
-                    </span>
-                  </td>
-                </tr>
+      {/* Live Ward Inpatients Table */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card title="Ward Inpatients Roster" subtitle="Admitted patients currently under ward care" className="lg:col-span-2">
+          {inpatients.length === 0 ? (
+            <div className="py-12 text-center text-slate-500 text-xs">
+              No active inpatients currently assigned to this ward station.
+            </div>
+          ) : (
+            <div className="divide-y divide-slate-100">
+              {inpatients.slice(0, 5).map((adm) => (
+                <div key={adm._id} className="py-3.5 flex items-center justify-between">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-slate-800 text-xs">{adm.patient?.name}</span>
+                      <span className="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                        Bed: {adm.bedNumber}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      Attending: Dr. {adm.attendingDoctor?.user?.name || 'Physician'} • {adm.department?.name || 'General Ward'}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Link to="/nurse/care-records" className="text-xs font-medium text-primary-600 hover:text-primary-700">
+                      Record Vitals →
+                    </Link>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </Card>
+            </div>
+          )}
+        </Card>
+
+        <Card title="Shift Actions" subtitle="Nursing workflows">
+          <div className="space-y-3">
+            <Link to="/nurse/care-records" className="p-3 rounded-lg bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 transition-all block group">
+              <div className="flex items-center gap-2.5">
+                <HeartPulse className="w-4 h-4 text-emerald-600" />
+                <span className="text-xs font-semibold text-slate-800 group-hover:text-emerald-600">Vitals & Observations</span>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1">Record BP, HR, SpO2, and temperature readings</p>
+            </Link>
+
+            <Link to="/nurse/assigned-patients" className="p-3 rounded-lg bg-slate-50 hover:bg-purple-50/60 border border-slate-200/80 transition-all block group">
+              <div className="flex items-center gap-2.5">
+                <BedDouble className="w-4 h-4 text-purple-600" />
+                <span className="text-xs font-semibold text-slate-800 group-hover:text-purple-600">Ward Bed Roster</span>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1">Check bed allocation and update bedside care notes</p>
+            </Link>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }

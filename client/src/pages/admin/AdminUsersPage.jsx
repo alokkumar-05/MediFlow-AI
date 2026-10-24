@@ -12,7 +12,12 @@ import {
   XCircle, 
   AlertCircle,
   RefreshCw,
-  Shield
+  Eye,
+  Calendar,
+  Mail,
+  Shield,
+  Clock,
+  IdCard
 } from 'lucide-react';
 
 export default function AdminUsersPage() {
@@ -33,13 +38,21 @@ export default function AdminUsersPage() {
   const [formError, setFormError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+  // User details modal state
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [detailsLoading, setDetailsLoading] = useState(false);
+
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const url = roleFilter ? `/admin/users?role=${roleFilter}` : '/admin/users';
-      const res = await api.get(url);
+      const params = new URLSearchParams();
+      if (roleFilter) params.append('role', roleFilter);
+      if (searchQuery.trim()) params.append('search', searchQuery.trim());
+      
+      const queryString = params.toString() ? `?${params.toString()}` : '';
+      const res = await api.get(`/admin/users${queryString}`);
       if (res.data?.success) {
-        setUsers(res.data.users);
+        setUsers(res.data.users || []);
       }
     } catch (err) {
       console.error('Failed to fetch users:', err);
@@ -78,6 +91,9 @@ export default function AdminUsersPage() {
       const res = await api.patch(`/admin/users/${userId}/status`);
       if (res.data?.success) {
         setSuccessMessage(res.data.message);
+        if (selectedUser && (selectedUser._id === userId || selectedUser.id === userId)) {
+          setSelectedUser(res.data.user);
+        }
         fetchUsers();
       }
     } catch (err) {
@@ -85,8 +101,25 @@ export default function AdminUsersPage() {
     }
   };
 
+  const handleViewDetails = async (userId) => {
+    setDetailsLoading(true);
+    try {
+      const res = await api.get(`/admin/users/${userId}`);
+      if (res.data?.success) {
+        setSelectedUser(res.data.user);
+      }
+    } catch (err) {
+      // Fallback to local user object
+      const fallback = users.find((u) => u._id === userId);
+      if (fallback) setSelectedUser(fallback);
+    } finally {
+      setDetailsLoading(false);
+    }
+  };
+
   const filteredUsers = users.filter((u) => {
-    const q = searchQuery.toLowerCase();
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return true;
     return u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q);
   });
 
@@ -101,7 +134,7 @@ export default function AdminUsersPage() {
     <div>
       <PageHeader
         title="Staff & User Management"
-        subtitle="Provision clinical staff credentials and manage user access permissions"
+        subtitle="Provision clinical staff credentials, inspect profiles, and manage system access permissions"
         action={
           <Button
             variant="primary"
@@ -132,7 +165,7 @@ export default function AdminUsersPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by name or email..."
-            className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-400"
           />
         </div>
 
@@ -188,11 +221,11 @@ export default function AdminUsersPage() {
                     </td>
                     <td className="py-3">
                       {u.isActive ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                           <CheckCircle className="w-3 h-3" /> Active
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-red-600 bg-red-50 px-2 py-0.5 rounded">
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200">
                           <XCircle className="w-3 h-3" /> Deactivated
                         </span>
                       )}
@@ -200,7 +233,16 @@ export default function AdminUsersPage() {
                     <td className="py-3 text-slate-400">
                       {new Date(u.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="py-3 pr-2 text-right">
+                    <td className="py-3 pr-2 text-right space-x-1">
+                      <button
+                        onClick={() => handleViewDetails(u._id)}
+                        className="p-1 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors text-[11px] font-medium inline-flex items-center gap-1"
+                        title="View user details"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>View</span>
+                      </button>
+
                       <button
                         onClick={() => handleToggleStatus(u._id, u.isActive)}
                         className={`text-[11px] font-semibold px-2 py-1 rounded transition-colors ${
@@ -219,6 +261,94 @@ export default function AdminUsersPage() {
           </div>
         )}
       </Card>
+
+      {/* User Details Modal */}
+      {selectedUser && (
+        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <IdCard className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">{selectedUser.name}</h3>
+                  <p className="text-xs text-slate-400 capitalize">{selectedUser.role} Account Profile</p>
+                </div>
+              </div>
+              <span className={`capitalize text-xs font-semibold px-2.5 py-0.5 rounded-full border ${rolePills[selectedUser.role] || rolePills.patient}`}>
+                {selectedUser.role}
+              </span>
+            </div>
+
+            <div className="mt-4 space-y-3 text-xs">
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 flex items-center gap-1.5">
+                    <Mail className="w-3.5 h-3.5 text-slate-400" /> Email Address
+                  </span>
+                  <span className="font-semibold text-slate-800">{selectedUser.email}</span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 flex items-center gap-1.5">
+                    <Shield className="w-3.5 h-3.5 text-slate-400" /> Account Clearance
+                  </span>
+                  <span className="font-semibold text-slate-800 capitalize">{selectedUser.role}</span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 flex items-center gap-1.5">
+                    <CheckCircle className="w-3.5 h-3.5 text-slate-400" /> Access Status
+                  </span>
+                  <span className={`font-semibold ${selectedUser.isActive ? 'text-emerald-600' : 'text-red-600'}`}>
+                    {selectedUser.isActive ? 'Active (Permitted)' : 'Deactivated (Suspended)'}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400" /> Account Registered
+                  </span>
+                  <span className="font-mono text-slate-700">
+                    {selectedUser.createdAt ? new Date(selectedUser.createdAt).toLocaleString() : 'N/A'}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-slate-400" /> Last Updated
+                  </span>
+                  <span className="font-mono text-slate-700">
+                    {selectedUser.updatedAt ? new Date(selectedUser.updatedAt).toLocaleString() : 'N/A'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
+              <button
+                onClick={() => handleToggleStatus(selectedUser.id || selectedUser._id, selectedUser.isActive)}
+                className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition-colors ${
+                  selectedUser.isActive
+                    ? 'text-red-700 bg-red-50 border-red-200 hover:bg-red-100'
+                    : 'text-emerald-700 bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
+                }`}
+              >
+                {selectedUser.isActive ? 'Deactivate Account' : 'Reactivate Account'}
+              </button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setSelectedUser(null)}
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Create Staff Modal */}
       {showCreateModal && (
@@ -290,6 +420,7 @@ export default function AdminUsersPage() {
                 <Button
                   variant="outline"
                   size="sm"
+                  type="button"
                   onClick={() => setShowCreateModal(false)}
                 >
                   Cancel
