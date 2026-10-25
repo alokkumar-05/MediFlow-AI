@@ -23,6 +23,7 @@ import {
   dischargePatient,
 } from '../controllers/admissionController.js';
 import { generatePatientSummary } from '../controllers/aiSummaryController.js';
+import { doctorAnalyzeMedicalReport } from '../controllers/reportAnalysisController.js';
 import { authenticateUser, authorizeRoles } from '../middleware/authMiddleware.js';
 
 const router = Router();
@@ -75,6 +76,9 @@ router.patch('/admissions/:id/discharge', dischargePatient);
 // Task 13: Doctor AI Patient History Summary (Protected & Grounded)
 router.post('/patients/:patientId/ai-summary', generatePatientSummary);
 router.get('/patients/:patientId/ai-summary', generatePatientSummary);
+
+// Task 14: Doctor AI Medical Report Analysis (Protected & Grounded)
+router.post('/patients/:patientId/analyze-report', doctorAnalyzeMedicalReport);
 
 export default router;
 

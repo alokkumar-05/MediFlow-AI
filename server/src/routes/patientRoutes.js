@@ -14,6 +14,7 @@ import {
   patientListMyAdmissions,
   getAdmissionById,
 } from '../controllers/admissionController.js';
+import { patientAnalyzeMedicalReport } from '../controllers/reportAnalysisController.js';
 import { authenticateUser, authorizeRoles } from '../middleware/authMiddleware.js';
 
 const router = Router();
@@ -35,6 +36,9 @@ router.get('/medical-records/:id', patientGetMyRecordById);
 // Patient Inpatient Admission Endpoints
 router.get('/admissions', patientListMyAdmissions);
 router.get('/admissions/:id', getAdmissionById);
+
+// Task 14: Patient Medical Report Analysis
+router.post('/analyze-report', patientAnalyzeMedicalReport);
 
 export default router;
 

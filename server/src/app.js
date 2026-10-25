@@ -41,9 +41,9 @@ app.use(
   })
 );
 
-// Body and Cookie parsing middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Body and Cookie parsing middleware (allow up to 10mb for base64 medical report uploads)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
 // Primary API Routes
