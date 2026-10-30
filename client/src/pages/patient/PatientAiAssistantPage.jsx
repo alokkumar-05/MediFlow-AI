@@ -100,7 +100,7 @@ export default function PatientAiAssistantPage() {
           )}
         </Card>
 
-        <Card title="How AI Triage Works" subtitle="Gemini clinical integration">
+        <Card title="How AI Triage Works" subtitle="Clinical decision support integration">
           <div className="space-y-3 text-xs text-slate-600">
             <p>1. Analyzes your natural-language symptom descriptions.</p>
             <p>2. Compares symptoms against hospital specialty divisions.</p>

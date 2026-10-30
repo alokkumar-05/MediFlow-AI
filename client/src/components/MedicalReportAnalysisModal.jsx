@@ -81,7 +81,7 @@ export default function MedicalReportAnalysisModal({
             </div>
             <div>
               <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                AI Medical Report Analysis
+                MediFlow-AI Report Analysis
                 <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                   Grounded Extraction
                 </span>
@@ -93,9 +93,6 @@ export default function MedicalReportAnalysisModal({
                   </>
                 )}
                 Document: <span className="text-emerald-700 font-medium">{fileName || reportType}</span>
-                {analysisData?.modelUsed && (
-                  <> • Engine: <span className="text-slate-600 font-medium">{analysisData.modelUsed}</span></>
-                )}
               </p>
             </div>
           </div>
@@ -123,7 +120,7 @@ export default function MedicalReportAnalysisModal({
               <div className="w-12 h-12 rounded-full border-4 border-emerald-200 border-t-emerald-600 animate-spin flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-emerald-600 animate-pulse" />
               </div>
-              <p className="text-sm font-semibold text-slate-800">Analyzing medical report with Gemini AI...</p>
+              <p className="text-sm font-semibold text-slate-800">MediFlow-AI is analysing...</p>
               <p className="text-xs text-slate-400 max-w-sm">
                 Extracting biomarkers, clinical units, documented reference ranges, abnormal flags, and synthesizing structured explanations.
               </p>

@@ -181,7 +181,7 @@ export default function PatientBookAppointmentPage() {
           </div>
           <div>
             <p className="font-bold text-slate-900 text-sm">Need help choosing a department?</p>
-            <p className="text-slate-600 mt-0.5">Use our Gemini-powered AI symptom triage assistant for guided clinical specialty recommendations.</p>
+            <p className="text-slate-600 mt-0.5">Use our MediFlow-AI symptom triage assistant for guided clinical specialty recommendations.</p>
           </div>
         </div>
         <Link to="/patient/ai-assistant">

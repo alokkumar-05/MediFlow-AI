@@ -866,7 +866,7 @@ export default function DoctorMedicalRecordsPage() {
                   className="bg-emerald-600 hover:bg-emerald-700 text-white"
                 >
                   <Sparkles className="w-3.5 h-3.5 mr-1" />
-                  Analyze with Gemini AI
+                  Analyze Report with MediFlow-AI
                 </Button>
               </div>
             </form>

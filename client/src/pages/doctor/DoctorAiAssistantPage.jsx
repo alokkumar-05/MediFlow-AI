@@ -158,7 +158,7 @@ export default function DoctorAiAssistantPage() {
     <div className="space-y-6">
       <PageHeader
         title="AI Clinical Decision Support"
-        subtitle="Gemini-assisted patient history distillation, multimodal report extraction, and clinical record synthesis"
+        subtitle="MediFlow-AI patient history distillation, multimodal report extraction, and clinical record synthesis"
       />
 
       {/* Physician Oversight Notice */}
@@ -208,7 +208,7 @@ export default function DoctorAiAssistantPage() {
               disabled={!selectedPatientId || summaryLoading}
               className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-200 w-full md:w-auto"
             >
-              {summaryLoading ? 'Synthesizing with Gemini...' : 'Generate AI History Summary'}
+              {summaryLoading ? 'MediFlow-AI is synthesizing...' : 'Generate AI History Summary'}
             </Button>
             <Button
               variant="outline"
@@ -235,7 +235,7 @@ export default function DoctorAiAssistantPage() {
             <div className="w-12 h-12 rounded-full border-4 border-indigo-200 border-t-indigo-600 animate-spin flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-indigo-600 animate-pulse" />
             </div>
-            <p className="text-sm font-semibold text-slate-800">Synthesizing clinical history with Gemini AI...</p>
+            <p className="text-sm font-semibold text-slate-800">MediFlow-AI is synthesizing clinical history...</p>
             <p className="text-xs text-slate-400 max-w-sm">
               Analyzing documented consultations, diagnoses, prescription regimens, and inpatient admissions.
             </p>
@@ -500,7 +500,7 @@ export default function DoctorAiAssistantPage() {
                   className="bg-emerald-600 hover:bg-emerald-700 text-white"
                 >
                   <Sparkles className="w-3.5 h-3.5 mr-1" />
-                  Analyze with Gemini AI
+                  Analyze Report with MediFlow-AI
                 </Button>
               </div>
             </form>

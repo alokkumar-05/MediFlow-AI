@@ -34,7 +34,7 @@ export default function AiAssistantPage() {
             <Compass className="w-5 h-5" />
           </div>
           <p className="text-xs text-slate-600 leading-relaxed">
-            Analyzes natural-language patient complaints via Google Gemini API to recommend the most appropriate medical department and flag urgent emergency symptoms.
+            Analyzes natural-language patient complaints via MediFlow-AI to recommend the most appropriate medical department and flag urgent emergency symptoms.
           </p>
         </Card>
 
@@ -70,7 +70,7 @@ export default function AiAssistantPage() {
       <Card title="AI Service Connectivity" subtitle="Architecture pipeline status">
         <div className="py-8 text-center flex flex-col items-center">
           <Sparkles className="w-10 h-10 text-slate-300 mb-2" />
-          <p className="text-sm font-semibold text-slate-700">Google Gemini API Integration Staged</p>
+          <p className="text-sm font-semibold text-slate-700">MediFlow-AI Clinical Engine Connected</p>
           <p className="text-xs text-slate-400 max-w-md mt-1">
             API endpoints (<code className="font-mono text-slate-600">/api/v1/ai/*</code>) and secure PII-sanitization middleware will be activated in Phase 5.
           </p>

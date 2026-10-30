@@ -68,7 +68,7 @@ export default function SettingsPage() {
             </div>
 
             <div className="p-3 bg-slate-50 rounded-lg border border-slate-200/80">
-              <p className="text-xs font-semibold text-slate-700">Google Gemini API</p>
+              <p className="text-xs font-semibold text-slate-700">MediFlow-AI Engine</p>
               <p className="text-[11px] text-slate-400 mt-0.5">Assistive clinical intelligence</p>
               <span className="inline-block mt-2 text-[10px] font-medium bg-slate-200 text-slate-700 px-2 py-0.5 rounded">
                 Phase 5 Target

@@ -201,7 +201,7 @@ export async function doctorAnalyzeMedicalReport(req, res, next) {
           base64Data: base64Payload,
           textContent: textPayload,
         },
-        { timeoutMs: req.body?.timeoutMs || 35000 }
+        { timeoutMs: req.body?.timeoutMs || 60000 }
       );
     } catch (aiError) {
       console.error('[Report Analysis Error]:', aiError?.message || aiError);
@@ -352,7 +352,7 @@ export async function patientAnalyzeMedicalReport(req, res, next) {
           base64Data: base64Payload,
           textContent: textPayload,
         },
-        { timeoutMs: req.body?.timeoutMs || 35000 }
+        { timeoutMs: req.body?.timeoutMs || 60000 }
       );
     } catch (aiError) {
       if (aiError.message && aiError.message.includes('timed out')) {

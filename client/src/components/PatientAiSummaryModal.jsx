@@ -27,7 +27,6 @@ export default function PatientAiSummaryModal({
 
   const sections = summaryData?.summary?.sections || {};
   const isFallback = summaryData?.summary?.isFallback;
-  const modelUsed = summaryData?.summary?.modelUsed || 'Gemini Pro Clinical Engine';
   const disclaimer =
     summaryData?.disclaimer ||
     'This summary is AI-generated from documented hospital records for clinical review only and does not constitute a formal diagnosis or medical advice.';
@@ -43,7 +42,7 @@ export default function PatientAiSummaryModal({
             </div>
             <div>
               <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                AI Patient History Summary
+                MediFlow-AI Clinical Summary
                 {isFallback && (
                   <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
                     Grounded Baseline
@@ -51,7 +50,7 @@ export default function PatientAiSummaryModal({
                 )}
               </h3>
               <p className="text-xs text-slate-500">
-                Patient: <span className="font-semibold text-slate-800">{patientName || 'Selected Patient'}</span> • Engine: <span className="text-indigo-600 font-medium">{modelUsed}</span>
+                Patient: <span className="font-semibold text-slate-800">{patientName || 'Selected Patient'}</span>
               </p>
             </div>
           </div>
@@ -79,7 +78,7 @@ export default function PatientAiSummaryModal({
               <div className="w-12 h-12 rounded-full border-4 border-indigo-200 border-t-indigo-600 animate-spin flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-indigo-600 animate-pulse" />
               </div>
-              <p className="text-sm font-semibold text-slate-800">Synthesizing clinical records with Gemini AI...</p>
+              <p className="text-sm font-semibold text-slate-800">MediFlow-AI is synthesising records...</p>
               <p className="text-xs text-slate-400 max-w-sm">
                 Parsing documented consultations, inpatient admissions, diagnoses, prescriptions, and identifying missing medical information.
               </p>

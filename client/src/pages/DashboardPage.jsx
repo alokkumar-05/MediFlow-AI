@@ -109,7 +109,7 @@ export default function DashboardPage() {
               { name: 'Patient Directory', path: '/patients', desc: 'Profiles & EMR records' },
               { name: 'Doctor Management', path: '/doctors', desc: 'Rostering & availability' },
               { name: 'Departments', path: '/departments', desc: 'Hospital unit directory' },
-              { name: 'AI Clinical Assistant', path: '/ai-assistant', desc: 'Gemini triage & extraction' },
+              { name: 'AI Clinical Assistant', path: '/ai-assistant', desc: 'Clinical triage & extraction' },
             ].map((link, idx) => (
               <Link 
                 key={idx} 
