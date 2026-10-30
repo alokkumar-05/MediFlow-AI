@@ -39,7 +39,7 @@ export default function PatientProfilePage() {
           </div>
         </Card>
 
-        <Card title="Clinical Profile (PatientProfile Model)" subtitle="Phase 4 Patient EMR details" className="lg:col-span-2">
+        <Card title="Clinical Profile" subtitle="Patient electronic health record summary" className="lg:col-span-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80">
               <span className="text-[10px] font-semibold text-slate-400 uppercase">Blood Group</span>
@@ -65,7 +65,7 @@ export default function PatientProfilePage() {
           <div className="mt-6 p-3 bg-blue-50/70 rounded-xl text-xs text-blue-800 border border-blue-200/60 flex items-start gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-blue-600" />
             <span>
-              The dedicated <code className="font-mono">PatientProfile</code> model holding emergency contacts, blood group, and allergy histories will be connected for editing in Phase 4.
+              Clinical profiles maintain verified emergency contacts, blood group, and allergy histories for medical consultations.
             </span>
           </div>
         </Card>

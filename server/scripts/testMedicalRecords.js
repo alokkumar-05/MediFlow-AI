@@ -26,7 +26,7 @@ function fail(testName, error) {
 
 async function runTests() {
   console.log('\n=============================================================');
-  console.log('🧪 MediFlow-AI Phase 3 Task 11: Medical Records & Prescriptions');
+  console.log('🧪 MediFlow-AI Medical Records & Prescriptions Suite');
   console.log('=============================================================\n');
 
   try {
@@ -506,7 +506,7 @@ async function runTests() {
 
   // Summary
   console.log('\n=============================================================');
-  console.log(`📊 Task 11 Suite Results: ${results.passed} Passed, ${results.failed} Failed`);
+  console.log(`📊 Medical Records Suite Results: ${results.passed} Passed, ${results.failed} Failed`);
   console.log('=============================================================\n');
 
   try {

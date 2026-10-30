@@ -1,3 +1,2 @@
-// MediFlow-AI Utils Directory
-// Subsequent phases will introduce: sanitize.js, tokenHelper.js, etc.
+// MediFlow-AI Utility Helpers
 export default {};

@@ -26,7 +26,7 @@ function fail(testName, error) {
 
 async function runTests() {
   console.log('\n=============================================================');
-  console.log('🧪 MediFlow-AI Phase 3 Task 12: Inpatient Admission & Discharge');
+  console.log('🧪 MediFlow-AI Inpatient Admission & Discharge Suite');
   console.log('=============================================================\n');
 
   try {
@@ -460,7 +460,7 @@ async function runTests() {
 
   // Summary
   console.log('\n=============================================================');
-  console.log(`📊 Task 12 Suite Results: ${results.passed} Passed, ${results.failed} Failed`);
+  console.log(`📊 Admission Suite Results: ${results.passed} Passed, ${results.failed} Failed`);
   console.log('=============================================================\n');
 
   try {

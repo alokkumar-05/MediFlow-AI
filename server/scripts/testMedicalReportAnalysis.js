@@ -50,7 +50,7 @@ Elevated fasting blood glucose and HbA1c consistent with documented glycemic dys
 
 async function runTests() {
   console.log('\n=============================================================');
-  console.log('🧪 MediFlow-AI Phase 4 Task 14: AI Medical Report Analysis');
+  console.log('🧪 MediFlow-AI Multimodal Medical Report Analysis Suite');
   console.log('=============================================================\n');
 
   try {
@@ -510,7 +510,7 @@ async function runTests() {
 
   // Summary
   console.log('\n=============================================================');
-  console.log(`📊 Task 14 Suite Results: ${results.passed} Passed, ${results.failed} Failed`);
+  console.log(`📊 Report Analysis Suite Results: ${results.passed} Passed, ${results.failed} Failed`);
   console.log('=============================================================\n');
 
   try {

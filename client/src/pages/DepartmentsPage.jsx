@@ -12,7 +12,7 @@ export default function DepartmentsPage() {
         subtitle="Manage clinical units, codes, and department resource allocations"
         action={
           <Button icon={Plus} disabled>
-            Add Department (Phase 2)
+            Add Department
           </Button>
         }
       />
@@ -20,9 +20,9 @@ export default function DepartmentsPage() {
       <div className="mb-6 p-4 rounded-xl bg-blue-50/60 border border-blue-200/60 flex items-start gap-3">
         <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
         <div className="text-sm">
-          <p className="font-semibold text-blue-900">Upcoming Department Management Implementation (Phase 2)</p>
+          <p className="font-semibold text-blue-900">Hospital Department Management</p>
           <p className="text-blue-700/90 text-xs mt-0.5">
-            This module will manage hospital departments (Cardiology, Orthopedics, Pediatrics, Neurology, etc.), department codes, status toggles, and clinician association.
+            This module manages hospital departments (Cardiology, Orthopedics, Pediatrics, Neurology, etc.), department codes, status toggles, and clinician association.
           </p>
         </div>
       </div>
@@ -32,9 +32,9 @@ export default function DepartmentsPage() {
           <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 mb-4 border border-blue-100">
             <Building2 className="w-8 h-8" />
           </div>
-          <h3 className="text-base font-semibold text-slate-800">Department Management Standby</h3>
+          <h3 className="text-base font-semibold text-slate-800">Department Directory</h3>
           <p className="text-xs text-slate-500 max-w-md mt-1">
-            Department CRUD APIs and hospital unit directories will be initialized in Phase 2.
+            Department CRUD APIs and hospital unit directories are synchronized with admin operations.
           </p>
           <div className="mt-6">
             <Button variant="outline" size="sm" icon={Layers} disabled>

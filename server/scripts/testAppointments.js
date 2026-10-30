@@ -12,7 +12,7 @@ const API_BASE = 'http://localhost:5000/api';
 
 async function runAppointmentsSuite() {
   console.log('\n=============================================================');
-  console.log('🧪 MediFlow-AI Phase 3 Task 10: Appointment Booking & Rostering Suite');
+  console.log('🧪 MediFlow-AI Appointment Booking & Rostering Suite');
   console.log('=============================================================\n');
 
   let passed = 0;
@@ -505,14 +505,14 @@ async function runAppointmentsSuite() {
 
     // Summary
     console.log('\n=============================================================');
-    console.log(`📊 Task 10 Suite Results: ${passed} Passed, ${failed} Failed`);
+    console.log(`📊 Appointment Suite Results: ${passed} Passed, ${failed} Failed`);
     console.log('=============================================================\n');
 
     if (failed > 0) {
       process.exit(1);
     }
   } catch (err) {
-    console.error('Unhandled error in Task 10 test suite:', err);
+    console.error('Unhandled error in appointment test suite:', err);
     process.exit(1);
   } finally {
     await disconnectDB();

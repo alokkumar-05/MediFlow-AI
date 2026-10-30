@@ -10,7 +10,7 @@ const API_BASE = 'http://localhost:5000/api';
 
 async function runStaffAndDepartmentsSuite() {
   console.log('\n=============================================================');
-  console.log('🧪 MediFlow-AI Phase 3: Staff & Department Management Suite');
+  console.log('🧪 MediFlow-AI Staff & Department Management Suite');
   console.log('=============================================================\n');
 
   let passed = 0;
@@ -335,7 +335,7 @@ async function runStaffAndDepartmentsSuite() {
     console.log('\n--- SECTION 4: Staff Management Enhancements & User Details ---');
 
     // S1: Admin provisions Doctor
-    const docEmail = `doc_phase3_${timestamp}@mediflow.test`;
+    const docEmail = `doctor_${timestamp}@mediflow.test`;
     const createDocRes = await fetch(`${API_BASE}/admin/staff`, {
       method: 'POST',
       headers: {
@@ -357,7 +357,7 @@ async function runStaffAndDepartmentsSuite() {
     );
 
     // S2: Admin provisions Nurse
-    const nurseEmail = `nurse_phase3_${timestamp}@mediflow.test`;
+    const nurseEmail = `nurse_${timestamp}@mediflow.test`;
     const createNurseRes = await fetch(`${API_BASE}/admin/staff`, {
       method: 'POST',
       headers: {
@@ -484,7 +484,7 @@ async function runStaffAndDepartmentsSuite() {
     await disconnectDB();
 
     console.log('\n=============================================================');
-    console.log(`📊 Phase 3 Task 8 Results: ${passed} PASSED | ${failed} FAILED`);
+    console.log(`📊 Staff & Department Suite Results: ${passed} PASSED | ${failed} FAILED`);
     console.log('=============================================================\n');
 
     if (failed > 0) {

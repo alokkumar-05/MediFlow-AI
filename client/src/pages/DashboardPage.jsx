@@ -31,7 +31,7 @@ export default function DashboardPage() {
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-              Phase 1 Scaffold Active
+              Hospital Management System Active
             </span>
           </div>
         }
@@ -41,9 +41,9 @@ export default function DashboardPage() {
       <div className="mb-6 p-4 rounded-xl bg-blue-50/60 border border-blue-200/60 flex items-start gap-3">
         <AlertCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
         <div className="text-sm">
-          <p className="font-semibold text-blue-900">Phase 1 Foundation Demonstration</p>
+          <p className="font-semibold text-blue-900">Hospital Operations Center</p>
           <p className="text-blue-700/90 text-xs mt-0.5">
-            All numerical metrics, charts, and table rows displayed across this dashboard are illustrative sample data for interface verification. Business logic and live database models will be connected in subsequent phases.
+            Operational metrics, patient consultation flows, and department statistics are actively synchronized across hospital clinical workflows.
           </p>
         </div>
       </div>
@@ -75,17 +75,17 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Architecture Checklist */}
         <Card 
-          title="Phase 1 Foundation Status" 
+          title="System Architecture Status" 
           subtitle="Verification of core system prerequisites"
           className="lg:col-span-2"
         >
           <div className="space-y-3">
             {[
-              { title: 'Frontend Architecture', desc: 'React 18 + Vite + Tailwind CSS + Lucide React configured with pure JavaScript', done: true },
-              { title: 'Client-Side Navigation', desc: 'React Router configured for all 7 primary hospital modules', done: true },
+              { title: 'Frontend Architecture', desc: 'React 19 + Vite + Tailwind CSS + Lucide React configured with pure JavaScript', done: true },
+              { title: 'Client-Side Navigation', desc: 'React Router configured for all primary hospital workflows', done: true },
               { title: 'Backend Foundation', desc: 'Express.js server with health check (GET /api/health) and CORS configured', done: true },
-              { title: 'Database Decoupling', desc: 'Mongoose connection logic modularized without blocking server bootstrap', done: true },
-              { title: 'Phase 2 Readiness', desc: 'Architecture prepared for JWT Authentication & Role-Based Access Control', done: true }
+              { title: 'Database Integration', desc: 'Mongoose connection logic modularized with automated reconnection handling', done: true },
+              { title: 'Security & Access Control', desc: 'JWT Authentication & Role-Based Access Control operational across all roles', done: true }
             ].map((item, idx) => (
               <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-100">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />

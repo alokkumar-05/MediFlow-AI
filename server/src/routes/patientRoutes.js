@@ -37,7 +37,7 @@ router.get('/medical-records/:id', patientGetMyRecordById);
 router.get('/admissions', patientListMyAdmissions);
 router.get('/admissions/:id', getAdmissionById);
 
-// Task 14: Patient Medical Report Analysis
+// Patient Multimodal Medical Report Analysis
 router.post('/analyze-report', patientAnalyzeMedicalReport);
 
 export default router;

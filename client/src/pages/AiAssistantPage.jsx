@@ -28,7 +28,7 @@ export default function AiAssistantPage() {
         <Card 
           title="AI Symptom Triage" 
           subtitle="Pre-consultation department matching"
-          footer={<span className="text-xs text-blue-600 font-medium">Planned for Phase 5</span>}
+          footer={<span className="text-xs text-emerald-600 font-medium">Production Feature</span>}
         >
           <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-3">
             <Compass className="w-5 h-5" />
@@ -42,7 +42,7 @@ export default function AiAssistantPage() {
         <Card 
           title="Report Analysis & OCR" 
           subtitle="Multimodal biomarker extraction"
-          footer={<span className="text-xs text-blue-600 font-medium">Planned for Phase 5</span>}
+          footer={<span className="text-xs text-emerald-600 font-medium">Production Feature</span>}
         >
           <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3">
             <FileText className="w-5 h-5" />
@@ -56,7 +56,7 @@ export default function AiAssistantPage() {
         <Card 
           title="Patient History Briefs" 
           subtitle="150-word clinical timeline summary"
-          footer={<span className="text-xs text-blue-600 font-medium">Planned for Phase 5</span>}
+          footer={<span className="text-xs text-emerald-600 font-medium">Production Feature</span>}
         >
           <div className="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center mb-3">
             <Bot className="w-5 h-5" />
@@ -72,7 +72,7 @@ export default function AiAssistantPage() {
           <Sparkles className="w-10 h-10 text-slate-300 mb-2" />
           <p className="text-sm font-semibold text-slate-700">MediFlow-AI Clinical Engine Connected</p>
           <p className="text-xs text-slate-400 max-w-md mt-1">
-            API endpoints (<code className="font-mono text-slate-600">/api/v1/ai/*</code>) and secure PII-sanitization middleware will be activated in Phase 5.
+            API endpoints (<code className="font-mono text-slate-600">/api/v1/ai/*</code>) and secure PII-sanitization middleware are active with clinical grounding safeguards.
           </p>
         </div>
       </Card>

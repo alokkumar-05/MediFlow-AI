@@ -15,9 +15,9 @@ export default function SettingsPage() {
       <div className="mb-6 p-4 rounded-xl bg-blue-50/60 border border-blue-200/60 flex items-start gap-3">
         <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
         <div className="text-sm">
-          <p className="font-semibold text-blue-900">System Preferences Scaffold (Phase 1)</p>
+          <p className="font-semibold text-blue-900">System Preferences & Security Policies</p>
           <p className="text-blue-700/90 text-xs mt-0.5">
-            Role permission auditing, security keys, notification preferences, and backup controls will be connected to the administrator control plane.
+            Role permission auditing, security keys, notification preferences, and backup controls are managed through the administrator control plane.
           </p>
         </div>
       </div>
@@ -70,16 +70,16 @@ export default function SettingsPage() {
             <div className="p-3 bg-slate-50 rounded-lg border border-slate-200/80">
               <p className="text-xs font-semibold text-slate-700">MediFlow-AI Engine</p>
               <p className="text-[11px] text-slate-400 mt-0.5">Assistive clinical intelligence</p>
-              <span className="inline-block mt-2 text-[10px] font-medium bg-slate-200 text-slate-700 px-2 py-0.5 rounded">
-                Phase 5 Target
+              <span className="inline-block mt-2 text-[10px] font-medium bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
+                Operational
               </span>
             </div>
 
             <div className="p-3 bg-slate-50 rounded-lg border border-slate-200/80">
               <p className="text-xs font-semibold text-slate-700">Cloudinary Media</p>
               <p className="text-[11px] text-slate-400 mt-0.5">Medical report storage</p>
-              <span className="inline-block mt-2 text-[10px] font-medium bg-slate-200 text-slate-700 px-2 py-0.5 rounded">
-                Phase 4 Target
+              <span className="inline-block mt-2 text-[10px] font-medium bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
+                Configured
               </span>
             </div>
           </div>

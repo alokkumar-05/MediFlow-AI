@@ -9,7 +9,7 @@ const API_BASE = 'http://localhost:5000/api';
 
 async function runExtendedRBACSuite() {
   console.log('\n=============================================================');
-  console.log('🧪 MediFlow-AI Phase 2: Comprehensive RBAC & Security Test Suite');
+  console.log('🧪 MediFlow-AI Role-Based Access Control & Security Test Suite');
   console.log('=============================================================\n');
 
   let passed = 0;

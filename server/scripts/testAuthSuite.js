@@ -9,7 +9,7 @@ const API_BASE = 'http://localhost:5000/api';
 
 async function runTestSuite() {
   console.log('\n=============================================================');
-  console.log('🧪 MediFlow-AI Phase 2: Automated Auth & RBAC Test Suite');
+  console.log('🧪 MediFlow-AI Authentication & RBAC Test Suite');
   console.log('=============================================================\n');
 
   let passed = 0;

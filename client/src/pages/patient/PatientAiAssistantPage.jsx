@@ -15,7 +15,7 @@ export default function PatientAiAssistantPage() {
     if (!symptoms.trim()) return;
 
     setAnalyzing(true);
-    // Simulate AI inference preview for demonstration in Phase 2
+    // Simulate clinical triage analysis
     setTimeout(() => {
       setSampleResult({
         recommendedDepartment: 'Gastroenterology',

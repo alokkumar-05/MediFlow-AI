@@ -73,11 +73,11 @@ router.get('/admissions', doctorListAssignedAdmissions);
 router.get('/admissions/:id', getAdmissionById);
 router.patch('/admissions/:id/discharge', dischargePatient);
 
-// Task 13: Doctor AI Patient History Summary (Protected & Grounded)
+// Doctor Clinical Decision Support & AI Patient History Summary (Protected & Grounded)
 router.post('/patients/:patientId/ai-summary', generatePatientSummary);
 router.get('/patients/:patientId/ai-summary', generatePatientSummary);
 
-// Task 14: Doctor AI Medical Report Analysis (Protected & Grounded)
+// Doctor Multimodal Medical Report Analysis (Protected & Grounded)
 router.post('/patients/:patientId/analyze-report', doctorAnalyzeMedicalReport);
 
 export default router;

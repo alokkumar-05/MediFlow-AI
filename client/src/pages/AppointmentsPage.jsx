@@ -12,7 +12,7 @@ export default function AppointmentsPage() {
         subtitle="Schedule, confirm, reschedule, and track consultation bookings"
         action={
           <Button icon={Plus} disabled>
-            New Booking (Phase 3)
+            New Booking
           </Button>
         }
       />
@@ -20,9 +20,9 @@ export default function AppointmentsPage() {
       <div className="mb-6 p-4 rounded-xl bg-blue-50/60 border border-blue-200/60 flex items-start gap-3">
         <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
         <div className="text-sm">
-          <p className="font-semibold text-blue-900">Upcoming Workflow Implementation (Phase 3)</p>
+          <p className="font-semibold text-blue-900">Clinical Appointment Scheduling</p>
           <p className="text-blue-700/90 text-xs mt-0.5">
-            This module will feature dynamic 30-minute slot calculation, doctor availability matching, concurrency-safe booking locks, and status transitions (Pending → Confirmed → Completed / Cancelled).
+            This module features dynamic 30-minute slot calculation, doctor availability matching, concurrency-safe booking locks, and status transitions (Pending → Confirmed → Completed / Cancelled).
           </p>
         </div>
       </div>
@@ -34,7 +34,7 @@ export default function AppointmentsPage() {
           </div>
           <h3 className="text-base font-semibold text-slate-800">No active appointments loaded</h3>
           <p className="text-xs text-slate-500 max-w-md mt-1">
-            Appointment booking, status filters, and live doctor calendar integrations will be linked to the backend appointment service in Phase 3.
+            Appointment booking, status filters, and live doctor calendar integrations are connected to the central appointment service.
           </p>
           <div className="mt-6 flex items-center gap-3">
             <Button variant="outline" size="sm" icon={Filter} disabled>

@@ -325,7 +325,7 @@ ${JSON.stringify(serializedAdmissions, null, 2)}
 }
 
 /**
- * Task 14: Analyzes medical reports (PDF, images, text) using Gemini multimodal API
+ * Analyzes medical reports (PDF, images, text) using multimodal clinical AI
  * Follows strict clinical grounding principles:
  * - Never fabricates test values, units, reference ranges, findings, dates, or patient details.
  * - Extracts only explicitly documented values.

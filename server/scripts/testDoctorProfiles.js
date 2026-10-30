@@ -11,7 +11,7 @@ const API_BASE = 'http://localhost:5000/api';
 
 async function runDoctorProfilesSuite() {
   console.log('\n=============================================================');
-  console.log('🧪 MediFlow-AI Phase 3 Task 9: Doctor Profiles & Availability Suite');
+  console.log('🧪 MediFlow-AI Doctor Profiles & Availability Suite');
   console.log('=============================================================\n');
 
   let passed = 0;
@@ -493,14 +493,14 @@ async function runDoctorProfilesSuite() {
 
     // Summary
     console.log('\n=============================================================');
-    console.log(`📊 Task 9 Suite Results: ${passed} Passed, ${failed} Failed`);
+    console.log(`📊 Doctor Profiles Suite Results: ${passed} Passed, ${failed} Failed`);
     console.log('=============================================================\n');
 
     if (failed > 0) {
       process.exit(1);
     }
   } catch (err) {
-    console.error('Unhandled error in Task 9 test suite:', err);
+    console.error('Unhandled error in doctor profiles test suite:', err);
     process.exit(1);
   } finally {
     await disconnectDB();
